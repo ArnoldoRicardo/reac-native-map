@@ -7,7 +7,6 @@ export default function App() {
   const [puntos, setPuntos] = useState([]);
   const [puntoTemp, setPuntoTemp] = useState({});
   const [visibilityFilter, setVisibilityFilter] = useState("new_punto"); // new_punto, all_puntos
-
   const [visibility, setVisibility] = useState(false);
 
   const handleLongpress = ({ nativeEvent }) => {
@@ -33,12 +32,15 @@ export default function App() {
     setVisibility(true);
   };
 
+  const [pointsFilter, setPointsFilter] = useState(true);
+  const togglePointsFilter = () => setPointsFilter(!pointsFilter)
+
   return (
     <View style={styles.container}>
-      <Map onLongPress={handleLongpress} />
+      <Map onLongPress={handleLongpress} puntos={puntos} pointsFilter={pointsFilter} />
       <Modal visibility={visibility}>
         {visibilityFilter === "new_punto" ? (
-          <>
+          <View style={styles.form}>
             <Text>
               <Input
                 title="Nombre"
@@ -52,19 +54,21 @@ export default function App() {
               color="#f00"
               onPress={() => setVisibility(false)}
             />
-          </>
+          </View>
         ) : (
-          <List data={puntos} onPress={()=> setVisibility(false)} />
+          <List data={puntos} closeModal={()=> setVisibility(false)} />
         )}
-        <></>
       </Modal>
-      <Panel onPressLeft={handleLista} textLeft="Lista" />
+      <Panel onPressLeft={handleLista} textLeft="Lista" togglePointsFilter={togglePointsFilter} />
       <StatusBar style="auto" />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  form: {
+    padding: 15,
+  },
   container: {
     flex: 1,
     backgroundColor: "#fff",

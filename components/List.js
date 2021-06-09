@@ -1,7 +1,7 @@
 import React from "react";
 import { FlatList, Text, Button, View, StyleSheet, Dimensions } from "react-native";
 
-export default ({ data, onPress }) => {
+export default ({ data, closeModal }) => {
       console.log(data);
       return (
             <>
@@ -13,7 +13,7 @@ export default ({ data, onPress }) => {
                         />
                   </View>
                   <View>
-                        <Button style={styles.button} title="Cerrar" onPress={onPress} />
+                        <Button style={styles.button} title="Cerrar" onPress={closeModal} />
                   </View>
             </>
       );
